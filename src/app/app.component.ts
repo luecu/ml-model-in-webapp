@@ -7,11 +7,6 @@ import * as tf from '@tensorflow/tfjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ml-load-model';
-
-  private jsonFile
-  private weigthsFile;
-
   private model;
 
   private probPasta = 0;
@@ -31,23 +26,19 @@ export class AppComponent {
 
   public classify(): void {
     let image: any = document.getElementById("image")
-    console.log(image)
-
+    
     let tensor = tf.fromPixels(image)
                     .resizeNearestNeighbor([256,256])
                     .toFloat()
                        .expandDims();
     
     let pred = this.model.predict(tensor);
-    console.log(pred)
     pred.print()
 
     pred.data().then(it => {
       this.probMilk = it[0]
       this.probPasta = it[1]
     });
-
-    console.log(pred.asScalar)
   }
 
 
@@ -66,7 +57,4 @@ export class AppComponent {
 */
   }
 
-  public weightsUpload(files) {
-    this.weigthsFile = files[0];
-  }
 }
